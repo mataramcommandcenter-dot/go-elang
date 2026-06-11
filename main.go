@@ -425,7 +425,7 @@ func (c *SyncClient) syncRealisasiFromApi(tahun, bulan int, kodeSKPD string) Syn
 	result.Message = fmt.Sprintf("Berhasil sinkronisasi %d data realisasi", dataCount)
 	result.DataCount = dataCount
 	result.SyncedAt = time.Now().Format("02 Jan 2006 15:04:05")
-	result.APILogs = apiLogs
+	// result.APILogs = []
 
 	return result
 }
@@ -474,8 +474,8 @@ func handleSyncRealisasi(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/data-realisasi", handleSyncRealisasi)
 
-	log.Println("Server started on :8082")
+	log.Println("Server started on :8083")
 	log.Println("POST /data-realisasi - Sync realisasi from API (non-Sekda)")
 	log.Println("Request body: {\"tahun\": 2026, \"bulan\": 1, \"kodeskpd\": \"4.01.0.00.0.00.33.0000\"}")
-	log.Fatal(http.ListenAndServe(":8082", nil))
+	log.Fatal(http.ListenAndServe(":8083", nil))
 }

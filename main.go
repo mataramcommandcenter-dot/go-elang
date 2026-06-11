@@ -47,11 +47,13 @@ type APILog struct {
 
 // SyncResult represents the sync operation result
 type SyncResult struct {
-	Success   bool     `json:"success"`
-	Message   string   `json:"message"`
-	DataCount int      `json:"data_count"`
-	APILogs   []APILog `json:"api_logs"`
-	SyncedAt  string   `json:"synced_at,omitempty"`
+	Success         bool               `json:"success"`
+	Message         string             `json:"message"`
+	DataCount       int                `json:"data_count"`
+	APILogs         []APILog           `json:"api_logs"`
+	BulanIniData    map[string]float64 `json:"bulan_ini_data,omitempty"`
+	SdBulanLaluData map[string]float64 `json:"sd_bulan_lalu_data,omitempty"`
+	SyncedAt        string             `json:"synced_at,omitempty"`
 }
 
 // SyncRequest represents the POST /data-realisasi request body
@@ -229,10 +231,12 @@ func (c *SyncClient) syncRealisasiFromApi(tahun, bulan int, kodeSKPD string) Syn
 	totalStartTime := time.Now()
 
 	result := SyncResult{
-		Success:   false,
-		Message:   "",
-		DataCount: 0,
-		APILogs:   []APILog{},
+		Success:         false,
+		BulanIniData:    make(map[string]float64),
+		SdBulanLaluData: make(map[string]float64),
+		Message:         "",
+		DataCount:       0,
+		APILogs:         []APILog{},
 	}
 
 	// ---------- Date Range Calculation ----------
@@ -415,6 +419,9 @@ func (c *SyncClient) syncRealisasiFromApi(tahun, bulan int, kodeSKPD string) Syn
 	})
 
 	result.Success = true
+	result.BulanIniData = bulanIniData
+	result.SdBulanLaluData = sdBulanLaluData
+
 	result.Message = fmt.Sprintf("Berhasil sinkronisasi %d data realisasi", dataCount)
 	result.DataCount = dataCount
 	result.SyncedAt = time.Now().Format("02 Jan 2006 15:04:05")

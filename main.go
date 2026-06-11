@@ -474,8 +474,8 @@ func handleSyncRealisasi(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/data-realisasi", handleSyncRealisasi)
 
-	log.Println("Server started on :8083")
+	log.Println("Server started on :8082")
 	log.Println("POST /data-realisasi - Sync realisasi from API (non-Sekda)")
 	log.Println("Request body: {\"tahun\": 2026, \"bulan\": 1, \"kodeskpd\": \"4.01.0.00.0.00.33.0000\"}")
-	log.Fatal(http.ListenAndServe(":8083", nil))
+	log.Fatal(http.ListenAndServe(":8082", nil))
 }
